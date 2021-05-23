@@ -22,7 +22,7 @@ LOGIN_REDIRECT_URL = ('/')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'l!t+dmzf97rt9s*yrsux1py_1@odvz1szr&6&m!f@-nxq6k%%p'
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_auth',
     'djcelery_email',
+    'corsheaders'
     'celery',
     'allauth',
 
@@ -60,7 +61,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -68,6 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'Sondo_shopping.urls'
 
 TEMPLATES = [
@@ -89,14 +93,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Sondo_shopping.wsgi.application'
 ASGI_APPLICATION = "Sondo_shopping.asgi.application"
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [('localhost',6379)]
-#         }
-#     }
-# }
+
 
 # CHANNEL_LAYERS = {
 #     "default": {
@@ -113,6 +110,17 @@ CHANNEL_LAYERS = {
     },
 }
 
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [os.environ.get('REDIS_URL')],
+#         },
+#     },
+# }
+
+
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -124,7 +132,6 @@ CHANNEL_LAYERS = {
 # }
 DATABASES = {
      'default': dj_database_url.config()
-
 }
 
 
@@ -170,6 +177,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_URL = '/static/'
 STATIC_FILES = [
     os.path.join('BASE_DIR', 'static')
