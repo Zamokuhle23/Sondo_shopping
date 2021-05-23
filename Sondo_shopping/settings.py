@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'channels',
     'crispy_forms',
     'rest_auth',
-    'django_heroku'
     'djcelery_email',
     'corsheaders'
     'celery',
