@@ -1,0 +1,52 @@
+{#{% extends 'base.html' %}#}
+{#{% block title %}Sondos Shopping | Signup {% endblock%}#}
+{#{% block content %}#}
+{#<div class="container">#}
+{#    <div class="row">#}
+{#        <div class="col-md-6 offset-md-3">#}
+{#            <h1 class="font-weight-light">Login | Eshop </h1>#}
+{#            <hr>#}
+{#            <form action="{% url 'login' %}" method="POST">#}
+{#                {% csrf_token %}#}
+{#                {% if error %}#}
+{#                    <small style="color:red"> {{ error }} </small>#}
+{#                {% endif %}#}
+{#                <div class="form-group">#}
+{#                    <label for="email">Enter username</label>#}
+{#                    <input value="{{ userData.email }}" name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">#}
+{#                </div>#}
+{#                <div class="form-group">#}
+{#                    <label for="password">Password</label>#}
+{#                    <input name="password" type="password" class="form-control" id="password" placeholder="Enter Password">#}
+{#                </div>#}
+{#                <button type="submit" class="btn btn-primary">LOGIN</button>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{#{% endblock %}#}
+
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+ <div class="content-section">
+ <form method="POST">
+     {% csrf_token %}
+     <fieldset class="form-group">
+         <legend class="border-bottom mb-4">Log In</legend>
+         {{ form|crispy}}
+     </fieldset>
+     <div class="form-group">
+         <button class="btn btn-outline-info" type="submit">Login</button>
+     </div>
+ </form>
+     <small class="text-muted"> <a class="ml-2" href="{% url 'password_reset' %}">forgot password? </a> </small>
+ <div class="border-top pt-3">
+     <small class="text-muted">
+         Do you need an Account? <a class="ml-2" href="{% url 'signup' %}">Sign Up Now</a>
+     </small>
+ </div>
+
+ </div>
+{% endblock content %}
