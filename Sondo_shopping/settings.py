@@ -130,9 +130,24 @@ CHANNEL_LAYERS = {
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+# DATABASES = {
+#      'default': dj_database_url.config()
+# }
+
 DATABASES = {
-     'default': dj_database_url.config()
+    'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'sample123',
+            'USER': 'Masondo',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
 }
+# dj-database-url settings
+# Update database configuration with $DATABASE_URL.
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 
 REST_FRAMEWORK = {
@@ -201,5 +216,13 @@ CELERY_EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 
 # celery setting.
 CELERY_CACHE_BACKEND = 'default'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+# STATIC_URL = '/static/'
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+
 django_heroku.settings(locals())
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
