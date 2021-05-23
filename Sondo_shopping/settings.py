@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-import django_heroku
-import dj_database_url
+# import django_heroku
+# import dj_database_url
 import os
 
 LOGIN_REDIRECT_URL = ('/')
@@ -22,7 +22,7 @@ LOGIN_REDIRECT_URL = ('/')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'l!t+dmzf97rt9s*yrsux1py_1@odvz1szr&6&m!f@-nxq6k%%p'
@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_auth',
     'djcelery_email',
-    'corsheaders'
     'celery',
     'allauth',
 
@@ -63,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -124,30 +123,30 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 # DATABASES = {
 #      'default': dj_database_url.config()
 # }
 
-DATABASES = {
-    'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'sample123',
-            'USER': 'Masondo',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': '',
-        }
-}
-# dj-database-url settings
-# Update database configuration with $DATABASE_URL.
-db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
+# DATABASES = {
+#     'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': 'sample123',
+#             'USER': 'Masondo',
+#             'PASSWORD': '',
+#             'HOST': 'localhost',
+#             'PORT': '',
+#         }
+# }
+# # dj-database-url settings
+# # Update database configuration with $DATABASE_URL.
+# db_from_env = dj_database_url.config()
+# DATABASES['default'].update(db_from_env)
 
 
 REST_FRAMEWORK = {
@@ -193,7 +192,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 STATIC_URL = '/static/'
 STATIC_FILES = [
     os.path.join('BASE_DIR', 'static')
@@ -224,5 +223,5 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
