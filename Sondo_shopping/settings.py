@@ -12,15 +12,21 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import django_heroku
 import dj_database_url
 import os
+from urllib.parse import urljoin
+
+from celery.backends import redis
+from channels import staticfiles
+from django.template.context_processors import static
+from pip._vendor.cachecontrol.caches import redis_cache, RedisCache
 
 LOGIN_REDIRECT_URL = ('/')
 
-# CELERY_BROKER_URL = 'amqp://rabbitmq'
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = "redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"
+CELERY_RESULT_BACKEND = "redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"
 #: Only add pickle to this list if your broker is secured
 #: from unwanted access (see userguide/security.html)
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -103,7 +109,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [os.environ['REDIS_URL']],
+            "hosts": ["redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"],
         },
     },
 }
@@ -201,8 +207,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MEDIA_URL = '/media/image/'
 MEDIA_ROOT = BASE_DIR
 
-BROKER_URL = os.environ['REDIS_URL']
-CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
+# BROKER_URL = os.environ['REDIS_URL']
+# CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'djsbusiso2021@gmail.com'
@@ -212,8 +218,22 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Sondo Online team, Do not Reply to this email'
 CELERY_EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 
+
+# r = redis.from_url(os.environ.get("REDIS_URL"))
+# BROKER_URL = redis.from_url(os.environ.get("REDIS_URL"))
+# CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Canada/Eastern'
+
+#redis_url = urljoin(os.environ.get('REDIS_URL'))
+
+
+
+
 # celery setting.
-CELERY_CACHE_BACKEND = 'default'
+# CELERY_CACHE_BACKEND = 'default'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # STATIC_URL = '/static/'
