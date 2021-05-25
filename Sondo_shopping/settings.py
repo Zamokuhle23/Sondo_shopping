@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'djcelery_email',
     'celery',
-    'allauth',
+
 
 ]
 
