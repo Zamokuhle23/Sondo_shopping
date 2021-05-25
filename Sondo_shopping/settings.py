@@ -20,6 +20,7 @@ from channels_redis.core import RedisChannelLayer
 from django.template.context_processors import static
 from pip._vendor.cachecontrol.caches import redis_cache, RedisCache
 
+
 LOGIN_REDIRECT_URL = ('/')
 
 
@@ -29,7 +30,7 @@ LOGIN_REDIRECT_URL = ('/')
 # CELERY_TASK_SERIALIZER = 'json'
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Sondo_shopping.settings")
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'l!t+dmzf97rt9s*yrsux1py_1@odvz1szr&6&m!f@-nxq6k%%p'
 
