@@ -75,7 +75,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'Sondo_shopping.urls'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

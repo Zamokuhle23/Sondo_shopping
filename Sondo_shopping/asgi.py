@@ -8,7 +8,7 @@ import store.routing
 
 django_asgi_app = get_asgi_application()
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Sondo_shopping.settings')
-# django.setup()
+django.setup()
 # application = get_default_application()
 #
 application = ProtocolTypeRouter({
