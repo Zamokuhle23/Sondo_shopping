@@ -16,13 +16,13 @@ from urllib.parse import urljoin
 
 from celery.backends import redis
 from channels import staticfiles
+from channels_redis.core import RedisChannelLayer
 from django.template.context_processors import static
 from pip._vendor.cachecontrol.caches import redis_cache, RedisCache
 
 LOGIN_REDIRECT_URL = ('/')
 
-CELERY_BROKER_URL = "redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"
-CELERY_RESULT_BACKEND = "redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"
+
 #: Only add pickle to this list if your broker is secured
 #: from unwanted access (see userguide/security.html)
 # CELERY_ACCEPT_CONTENT = ['json']
@@ -105,14 +105,14 @@ ASGI_APPLICATION = "Sondo_shopping.asgi.application"
 #     }
 # }
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": ["redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": ["redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"],
+#         },
+#     },
+# }
 
 # CHANNEL_LAYERS = {
 #     'default': {
@@ -123,35 +123,21 @@ CHANNEL_LAYERS = {
 #     },
 # }
 
+CHANNEL_LAYERS = {
+   "default": {
+       "BACKEND": "channels_redis.core.RedisChannelLayer",  # use redis backend
+       "CONFIG": {
+           "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],  # set redis address
+       },
+       "ROUTING": "Sondo_shopping.routing.channel_routing",  # load routing from our routing.py file
+   },
+}
 
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 DATABASES = {
      'default': dj_database_url.config()
 }
 
-# DATABASES = {
-#     'default': {
-#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#             'NAME': 'sample123',
-#             'USER': 'Masondo',
-#             'PASSWORD': '',
-#             'HOST': 'localhost',
-#             'PORT': '',
-#         }
-# }
-# # dj-database-url settings
-# # Update database configuration with $DATABASE_URL.
-# db_from_env = dj_database_url.config()
-# DATABASES['default'].update(db_from_env)
 
 
 REST_FRAMEWORK = {
@@ -200,7 +186,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_FILES = [
-    os.path.join('BASE_DIR', 'static')
+    os.path.join(BASE_DIR, "static")
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -222,7 +208,11 @@ CELERY_EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 # r = redis.from_url(os.environ.get("REDIS_URL"))
 # BROKER_URL = redis.from_url(os.environ.get("REDIS_URL"))
 # CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
-CELERY_ACCEPT_CONTENT = ['application/json']
+
+
+CELERY_BROKER_URL = "redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"
+CELERY_RESULT_BACKEND = "redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"
+CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Canada/Eastern'
@@ -235,12 +225,15 @@ CELERY_TIMEZONE = 'Canada/Eastern'
 # celery setting.
 # CELERY_CACHE_BACKEND = 'default'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # STATIC_URL = '/static/'
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
+
 
 django_heroku.settings(locals())
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
