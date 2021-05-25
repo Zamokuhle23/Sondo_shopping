@@ -106,24 +106,24 @@ ASGI_APPLICATION = "Sondo_shopping.asgi.application"
 #     }
 # }
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": ["redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"],
-#         },
-#     },
-# }
-
 CHANNEL_LAYERS = {
-   "default": {
-       "BACKEND": "channels_redis.core.RedisChannelLayer",  # use redis backend
-       "CONFIG": {
-           "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],  # set redis address
-       },
-       "ROUTING": "Sondo_shopping.routing.channel_routing",  # load routing from our routing.py file
-   },
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": ["redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"],
+        },
+    },
 }
+
+# CHANNEL_LAYERS = {
+#    "default": {
+#        "BACKEND": "channels_redis.core.RedisChannelLayer",  # use redis backend
+#        "CONFIG": {
+#            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],  # set redis address
+#        },
+#        "ROUTING": "Sondo_shopping.routing.channel_routing",  # load routing from our routing.py file
+#    },
+# }
 
 
 # DATABASES = {
