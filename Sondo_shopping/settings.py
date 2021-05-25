@@ -100,11 +100,11 @@ ASGI_APPLICATION = "Sondo_shopping.asgi.application"
 
 
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
 
 # CHANNEL_LAYERS = {
 #     'default': {
@@ -115,15 +115,15 @@ CHANNEL_LAYERS = {
 #     },
 # }
 
-# CHANNEL_LAYERS = {
-#    "default": {
-#        "BACKEND": "channels_redis.core.RedisChannelLayer",  # use redis backend
-#        "CONFIG": {
-#            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],  # set redis address
-#        },
-#        "ROUTING": "Sondo_shopping.routing.channel_routing",  # load routing from our routing.py file
-#    },
-# }
+CHANNEL_LAYERS = {
+   "default": {
+       "BACKEND": "channels_redis.core.RedisChannelLayer",  # use redis backend
+       "CONFIG": {
+           "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],  # set redis address
+       },
+       "ROUTING": "Sondo_shopping.routing.channel_routing",  # load routing from our routing.py file
+   },
+}
 
 
 # DATABASES = {
