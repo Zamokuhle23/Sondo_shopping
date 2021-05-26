@@ -32,7 +32,8 @@ LOGIN_REDIRECT_URL = ('/')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Sondo_shopping.settings")
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l!t+dmzf97rt9s*yrsux1py_1@odvz1szr&6&m!f@-nxq6k%%p'
+SECRET_KEY = 'qwerty123@'
+#SECRET_KEY = os.environ.get('SECRET_KEY', '1234')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'customers',
     'store',
+    'django_celery_results',
     'rest_framework',
     'rest_framework_swagger',
     'channels',
@@ -100,35 +102,12 @@ ASGI_APPLICATION = "Sondo_shopping.asgi.application"
 
 
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels.layers.InMemoryChannelLayer"
-#     }
-# }
-
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": ["redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"],
-        },
-    },
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
 }
 
-# CHANNEL_LAYERS = {
-#    "default": {
-#        "BACKEND": "channels_redis.core.RedisChannelLayer",  # use redis backend
-#        "CONFIG": {
-#            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],  # set redis address
-#        },
-#        "ROUTING": "Sondo_shopping.routing.channel_routing",  # load routing from our routing.py file
-#    },
-# }
-
-
-# DATABASES = {
-#      'default': dj_database_url.config()
-# }
 
 DATABASES = {
     'default': {
@@ -184,7 +163,7 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_FILES = [
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
@@ -209,9 +188,10 @@ CELERY_EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 # CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
 
 
-CELERY_BROKER_URL = "redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"
-CELERY_RESULT_BACKEND = "redis://:pda6353844e17558922486b6ac822f9aace203c99b7615156aa4c5b891259b90e@ec2-34-199-105-174.compute-1.amazonaws.com:23540"
+CELERY_BROKER_URL = "redis://:pfda0000f041c8db9b7945da412c90663ff5b71548151e3b762badbb829ffa872@ec2-54-221-218-75.compute-1.amazonaws.com:11530"
+REDIS_URL = "redis://:pfda0000f041c8db9b7945da412c90663ff5b71548151e3b762badbb829ffa872@ec2-54-221-218-75.compute-1.amazonaws.com:11530"
 CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Canada/Eastern'
@@ -226,12 +206,12 @@ CELERY_TIMEZONE = 'Canada/Eastern'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+# PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # STATIC_URL = '/static/'
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(PROJECT_ROOT, 'static'),
+# )
 
 
 django_heroku.settings(locals())

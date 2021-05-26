@@ -1,5 +1,8 @@
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.views.generic import RedirectView
+
 from customers import views as user_views
 from django.urls import path,include
 from django.contrib.auth import views as auth_views
@@ -11,6 +14,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
     path('', include('store.urls')),
     path('register/', user_views.register, name='register'),
     #url('^accounts/', include('django.contrib.auth.urls')),
